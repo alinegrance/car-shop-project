@@ -18,7 +18,11 @@ export default class CarService {
 
   public async create(car: ICar) {
     const newCar = await this._carODM.create(car);
-    // console.log(newCar);
+    console.log(newCar);
     return this._createDomain(newCar);
+  }
+
+  public async getAll() {
+    return this._carODM.getAll();
   }
 }
