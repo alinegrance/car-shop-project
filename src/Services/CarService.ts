@@ -19,6 +19,12 @@ export default class CarService {
     return null;
   }
 
+  private _validateId(id: string) {
+    if (!isValidObjectId(id)) {
+      throw new CustomError('Invalid mongo id', UNPROCESSABLE_ENTITY);
+    }
+  }
+
   public async create(car: ICar) {
     const newCar = await this._carODM.create(car);
     // console.log(newCar);
@@ -31,13 +37,20 @@ export default class CarService {
   }
 
   public async getById(id: string) {
-    if (!isValidObjectId(id)) {
-      throw new CustomError('Invalid mongo id', UNPROCESSABLE_ENTITY);
-    }
+    this._validateId(id);
     const car = await this._carODM.getById(id);
     if (!car) {
       throw new CustomError('Car not found', NOT_FOUND);
     }
     return this._createDomain(car);
+  }
+
+  public async update(id: string, car: Partial<ICar>) {
+    this._validateId(id);
+    const updatedCar = await this._carODM.update(id, car);
+    if (!updatedCar) {
+      throw new CustomError('Car not found', NOT_FOUND);
+    }
+    return this._createDomain(updatedCar);
   }
 }
