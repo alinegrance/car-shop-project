@@ -78,4 +78,38 @@ describe('Test CarService', function () {
 
     expect(result).to.be.deep.equal(carMock);
   });
+
+  it('Should return updated car', async function () {
+    const carId = '634852326b35b59438fbea2f';
+    const carUpdateInput = {
+      model: 'Marea-NOVO',
+      year: 2002,
+      color: 'Black',
+      status: true,
+      buyValue: 15.99,
+      doorsQty: 4,
+      seatsQty: 5,
+    };
+    const carUpdateOutput = {
+      id: '634852326b35b59438fbea2f',
+      model: 'Marea-NOVO',
+      year: 2002,
+      color: 'Black',
+      status: true,
+      buyValue: 15.99,
+      doorsQty: 4,
+      seatsQty: 5,
+    };
+
+    sinon.stub(Model, 'findOneAndUpdate').resolves(carUpdateOutput);
+    const service = new CarService();
+
+    const result = await service.update(carId, carUpdateInput);
+
+    expect(result).to.be.deep.equal(carUpdateOutput);
+  });
+
+  afterEach(function () {
+    sinon.restore();
+  });
 });
