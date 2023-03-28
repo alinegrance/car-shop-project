@@ -41,16 +41,16 @@ export default class CarController {
     }
   }
 
-  // public async update() {
-  //   const { id } = this._req.params;
-  //   const updateBody: IMotorcycle = this._req.body;
-  //   try {
-  //     const updatedCar = await this._service.update(id, updateBody);
-  //     return this._res.status(OK).send(updatedCar);
-  //   } catch (err) {
-  //     return this._res
-  //       .status((err as CustomError).status)
-  //       .send({ message: (err as CustomError).message });
-  //   }
-  // }
+  public async update() {
+    const { id } = this._req.params;
+    const updateBody: IMotorcycle = this._req.body;
+    try {
+      const updatedMotorcycle = await this._service.update(id, updateBody);
+      return this._res.status(OK).send(updatedMotorcycle);
+    } catch (err) {
+      return this._res
+        .status((err as CustomError).status)
+        .send({ message: (err as CustomError).message });
+    }
+  }
 }

@@ -33,7 +33,6 @@ export default class MotorcycleService {
 
   public async getAll() {
     const motorcycles = await this._motorcycleODM.getAll();
-    console.log('>>>>>>', motorcycles);
     return motorcycles.map((motorcycle: IMotorcycle) => this._createDomain(motorcycle));
   }
 
@@ -46,12 +45,12 @@ export default class MotorcycleService {
     return this._createDomain(motorcycle);
   }
 
-  // public async update(id: string, car: Partial<ICar>) {
-  //   this._validateId(id);
-  //   const updatedCar = await this._carODM.update(id, car);
-  //   if (!updatedCar) {
-  //     throw new CustomError('Car not found', NOT_FOUND);
-  //   }
-  //   return this._createDomain(updatedCar);
-  // }
+  public async update(id: string, motorcycle: Partial<IMotorcycle>) {
+    this._validateId(id);
+    const updatedMotorcycle = await this._motorcycleODM.update(id, motorcycle);
+    if (!updatedMotorcycle) {
+      throw new CustomError('Motorcycle not found', NOT_FOUND);
+    }
+    return this._createDomain(updatedMotorcycle);
+  }
 }
