@@ -3,9 +3,9 @@ import Motorcycle from '../Domains/Motorcycle';
 import IMotorcycle from '../Interfaces/IMotorcycle';
 import MotorcyclesODM from '../Models/MotorcyclesODM';
 import CustomError from '../utils/CustomError';
-import { UNPROCESSABLE_ENTITY } from '../utils/httpStatus';
+import { NOT_FOUND, UNPROCESSABLE_ENTITY } from '../utils/httpStatus';
 
-export default class CarService {
+export default class MotorcycleService {
   private _motorcycleODM: MotorcyclesODM;
 
   constructor() {
@@ -31,19 +31,20 @@ export default class CarService {
     return this._createDomain(newMotorcycle);
   }
 
-  // public async getAll() {
-  //   const cars = await this._carODM.getAll();
-  //   return cars.map((car: ICar) => this._createDomain(car));
-  // }
+  public async getAll() {
+    const motorcycles = await this._motorcycleODM.getAll();
+    console.log('>>>>>>', motorcycles);
+    return motorcycles.map((motorcycle: IMotorcycle) => this._createDomain(motorcycle));
+  }
 
-  // public async getById(id: string) {
-  //   this._validateId(id);
-  //   const car = await this._carODM.getById(id);
-  //   if (!car) {
-  //     throw new CustomError('Car not found', NOT_FOUND);
-  //   }
-  //   return this._createDomain(car);
-  // }
+  public async getById(id: string) {
+    this._validateId(id);
+    const motorcycle = await this._motorcycleODM.getById(id);
+    if (!motorcycle) {
+      throw new CustomError('Motorcycle not found', NOT_FOUND);
+    }
+    return this._createDomain(motorcycle);
+  }
 
   // public async update(id: string, car: Partial<ICar>) {
   //   this._validateId(id);

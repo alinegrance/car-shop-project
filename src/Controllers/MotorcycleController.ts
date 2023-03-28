@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import IMotorcycle from '../Interfaces/IMotorcycle';
 import MotorcycleService from '../Services/MotorcycleService';
+import CustomError from '../utils/CustomError';
 // import CustomError from '../utils/CustomError';
-import { CREATED } from '../utils/httpStatus';
+import { CREATED, OK } from '../utils/httpStatus';
 
 export default class CarController {
   private _req: Request;
@@ -23,22 +24,22 @@ export default class CarController {
     this._res.status(CREATED).send(newMotorcycle);
   }
 
-  // public async getAll() {
-  //   const cars = await this._service.getAll();
-  //   this._res.status(OK).send(cars);
-  // }
+  public async getAll() {
+    const motorcycles = await this._service.getAll();
+    this._res.status(OK).send(motorcycles);
+  }
 
-  // public async getById() {
-  //   const { id } = this._req.params;
-  //   try {
-  //     const car = await this._service.getById(id);
-  //     return this._res.status(OK).send(car);
-  //   } catch (err) {
-  //     return this._res
-  //       .status((err as CustomError).status)
-  //       .send({ message: (err as CustomError).message });
-  //   }
-  // }
+  public async getById() {
+    const { id } = this._req.params;
+    try {
+      const motorcycle = await this._service.getById(id);
+      return this._res.status(OK).send(motorcycle);
+    } catch (err) {
+      return this._res
+        .status((err as CustomError).status)
+        .send({ message: (err as CustomError).message });
+    }
+  }
 
   // public async update() {
   //   const { id } = this._req.params;
